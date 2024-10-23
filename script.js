@@ -9,6 +9,7 @@ async function fetchData() {
         }
         allData = await response.json(); // Store the fetched data
         populateTable(allData); // Populate table with initial data
+        updateStatistics(allData); // Calculate and display statistics
     } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
     }
@@ -46,6 +47,7 @@ function filterData(event) {
     // Reset sorting when filtering
     currentSort = { field: '', direction: 'asc' };
     populateTable(filteredData); // Populate table with filtered data
+    updateStatistics(filteredData); // Update statistics for filtered data
 }
 
 function sortTable(field) {
@@ -71,6 +73,7 @@ function sortTable(field) {
     // Populate table with sorted data
     populateTable(sortedData);
     highlightSortedColumn(field);
+    updateStatistics(sortedData); // Update statistics for sorted data
 }
 
 function highlightSortedColumn(field) {
@@ -81,6 +84,61 @@ function highlightSortedColumn(field) {
             header.classList.add(currentSort.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
         }
     });
+}
+
+function updateStatistics(data) {
+    const speeds = data.map(item => item.speed); // Extract speeds
+
+    if (speeds.length > 0) {
+        const mean = calculateMean(speeds);
+        const median = calculateMedian(speeds);
+        const mode = calculateMode(speeds);
+
+        document.getElementById('mean-speed').textContent = mean.toFixed(2);
+        document.getElementById('median-speed').textContent = median.toFixed(2);
+        document.getElementById('mode-speed').textContent = mode.join(', ');
+    } else {
+        document.getElementById('mean-speed').textContent = 'N/A';
+        document.getElementById('median-speed').textContent = 'N/A';
+        document.getElementById('mode-speed').textContent = 'N/A';
+    }
+}
+
+function calculateMean(arr) {
+    const total = arr.reduce((sum, value) => sum + value, 0);
+    return total / arr.length;
+}
+
+function calculateMedian(arr) {
+    const sorted = arr.slice().sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+
+    if (sorted.length % 2 === 0) {
+        return (sorted[mid - 1] + sorted[mid]) / 2; // Average of two middle numbers
+    } else {
+        return sorted[mid]; // Middle number
+    }
+}
+
+function calculateMode(arr) {
+    const frequency = {};
+    let maxFreq = 0;
+    let modes = [];
+
+    arr.forEach(value => {
+        frequency[value] = (frequency[value] || 0) + 1;
+        if (frequency[value] > maxFreq) {
+            maxFreq = frequency[value];
+        }
+    });
+
+    for (const key in frequency) {
+        if (frequency[key] === maxFreq) {
+            modes.push(Number(key));
+        }
+    }
+
+    return modes.length === arr.length ? [] : modes; // Return empty array if no mode
 }
 
 // Fetch data when the page loads
