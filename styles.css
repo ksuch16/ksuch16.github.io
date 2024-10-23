@@ -6,11 +6,19 @@
   color: #BD1F2D
 }
 
-th {
-  border-bottom: 1px solid grey;
-  font-weight: bold;
-  font-size: 1.2em;
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
+th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+th {
+    background-color: #f2f2f2;
+}
+
 
 a {
   text-decoration:none;
