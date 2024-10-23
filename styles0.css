@@ -1,10 +1,22 @@
-
-function fetchData() {
-  event.preventDefault();
-  var startdate = document.getElementById("startdate").value;
-  var enddate = document.getElementById("enddate").value;
-  console.log("Starting date: " + startdate);
-  console.log("Ending date: " + enddate);
-  fetch("https://compute.samford.edu/zohauth/clients/data");
+.blue {
+  color: #0C2340;
+}
+.red{
+  color: #BD1F2D
+}
+th {
+  border-bottom: 1px solid grey;
+  font-weight: bold;
+  font-size: 1.2em;
 }
 
+a {
+  text-decoration:none;
+}
+a:hover {
+  text-decoration:underline;
+}
+
+h1{
+  text-align:center;
+}
