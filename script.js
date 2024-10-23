@@ -1,4 +1,5 @@
 let allData = []; // To store all fetched data
+let currentSort = { field: '', direction: 'asc' }; // To track current sort
 
 async function fetchData() {
     try {
@@ -14,17 +15,10 @@ async function fetchData() {
 }
 
 function populateTable(data) {
-    const table = document.getElementById('data-table');
+    const tableBody = document.querySelector('#data-table tbody');
     
-    // Clear existing rows except for the header
-    table.innerHTML = `
-        <tr>
-            <th>ID</th>
-            <th>Speed</th>
-            <th>Result</th>
-            <th>Datetime</th>
-        </tr>
-    `;
+    // Clear existing rows
+    tableBody.innerHTML = '';
 
     data.forEach(item => {
         const row = document.createElement('tr');
@@ -34,7 +28,7 @@ function populateTable(data) {
             <td>${item.result || '--'}</td>
             <td>${new Date(item.datetime).toLocaleString()}</td>
         `;
-        table.appendChild(row);
+        tableBody.appendChild(row);
     });
 }
 
@@ -49,7 +43,44 @@ function filterData(event) {
         return itemDate >= startDate && itemDate <= endDate;
     });
 
+    // Reset sorting when filtering
+    currentSort = { field: '', direction: 'asc' };
     populateTable(filteredData); // Populate table with filtered data
+}
+
+function sortTable(field) {
+    const direction = (currentSort.field === field && currentSort.direction === 'asc') ? 'desc' : 'asc';
+    currentSort = { field, direction };
+
+    // Sort data based on selected field
+    const sortedData = [...allData].sort((a, b) => {
+        let comparison = 0;
+
+        if (field === 'speed') {
+            comparison = a.speed - b.speed; // Numeric comparison for speed
+        } else if (field === 'datetime') {
+            comparison = new Date(a.datetime) - new Date(b.datetime); // Date comparison
+        } else {
+            // For ID and result, default to string comparison
+            comparison = a[field].localeCompare(b[field]);
+        }
+
+        return direction === 'asc' ? comparison : -comparison;
+    });
+
+    // Populate table with sorted data
+    populateTable(sortedData);
+    highlightSortedColumn(field);
+}
+
+function highlightSortedColumn(field) {
+    const headers = document.querySelectorAll('#data-table th');
+    headers.forEach(header => {
+        header.classList.remove('sorted-asc', 'sorted-desc');
+        if (header.id === `${field}-header`) {
+            header.classList.add(currentSort.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
+        }
+    });
 }
 
 // Fetch data when the page loads
