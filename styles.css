@@ -17,10 +17,19 @@ th, td {
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
+    cursor: pointer; /* Indicate that headers are clickable */
 }
 
 th {
     background-color: #f2f2f2;
+}
+
+th.sorted-asc {
+    background-color: #d1e7dd; /* Light green for ascending sort */
+}
+
+th.sorted-desc {
+    background-color: #f8d7da; /* Light red for descending sort */
 }
 
 input[type="date"] {
@@ -31,4 +40,3 @@ button {
     margin: 5px;
     padding: 5px 10px;
 }
-
