@@ -1,40 +1,32 @@
-<html>
-  <head>
-    <title>Pitch Stats</title> 
-    <link rel="stylesheet" href="styles.css"></link>
-  </head>
-  <body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pitch Stats</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
     <h1 class="red">Trackman Pitch Stats</h1>
-  <form onsubmit="filterData();">
-    <label>Starting Date</label>
-    <input type="date" id="startdate"></input>
-    <label>Ending Date</label>
-    <input type="date" id="enddate"></input>
-    <button>Filter</button>
-  </form>
-    <table>
-      <tr>
-        <th>ID</th>
-        <th>Speed</th>
-        <th>Result</th>
-        <th>Datetime</th>
-      </tr>
-      <tr>
-        <td><a href="details.html">Pitch 12345</a></td>
-        <td>95</td>
-        <td>--</td>
-      </tr>
-      <tr>
-        <td><a href="details.html">Pitch 12346</a></td>
-        <td>92</td>
-        <td>--</td>
-      </tr>
-      <tr>
-        <td><a href="details.html">Pitch 12347</a></td>
-        <td>75</td>
-        <td>K</td>
-      </tr>
+    <form onsubmit="filterData(event);">
+        <label for="startdate">Starting Date:</label>
+        <input type="date" id="startdate" required>
+        <label for="enddate">Ending Date:</label>
+        <input type="date" id="enddate" required>
+        <button type="submit">Filter</button>
+    </form>
+
+    <table id="data-table">
+        <tr>
+            <th>ID</th>
+            <th>Speed</th>
+            <th>Result</th>
+            <th>Datetime</th>
+        </tr>
     </table>
+
     <script src="script.js"></script>
+</body>
+</html>
+
   </body>
 </html>
