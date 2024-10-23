@@ -16,17 +16,19 @@
     </form>
 
     <table id="data-table">
-        <tr>
-            <th>ID</th>
-            <th>Speed</th>
-            <th>Result</th>
-            <th>Datetime</th>
-        </tr>
+        <thead>
+            <tr>
+                <th id="id-header" onclick="sortTable('id')">ID</th>
+                <th id="speed-header" onclick="sortTable('speed')">Speed</th>
+                <th id="result-header" onclick="sortTable('result')">Result</th>
+                <th id="datetime-header" onclick="sortTable('datetime')">Datetime</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Data rows will be populated here -->
+        </tbody>
     </table>
 
     <script src="script.js"></script>
 </body>
-</html>
-
-  </body>
 </html>
